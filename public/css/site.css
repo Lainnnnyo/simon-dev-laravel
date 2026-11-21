@@ -1,0 +1,193 @@
+* { box-sizing: border-box; }
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: #090e1b;
+    color: #e8f4ff;
+    font-family: Arial, sans-serif;
+}
+
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 6%;
+    border-bottom: 1px solid #1e3750;
+    background: #0d1627;
+}
+
+.brand {
+    color: #e8f4ff;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.brand span, .eyebrow { color: #35e7d0; }
+
+nav {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: #c5d8e8;
+    text-decoration: none;
+}
+
+nav a:hover { color: #35e7d0; }
+nav { align-items: center; }
+nav .nav-logout { margin: 0; padding: 0; border: 0; background: none; box-shadow: none; }
+.nav-logout button { margin: 0; padding: 0; background: transparent; color: #c5d8e8; font: inherit; }
+.nav-logout button:hover, table a { color: #35e7d0; }
+.auth-card { max-width: 450px; margin: 80px auto; padding: 0 20px; }
+.auth-card h1, .auth-card .eyebrow { text-align: center; }
+.auth-card form { margin-top: 25px; }
+.auth-error { color: #ff9a9a; text-align: center; }
+.auth-card form label, .auth-card form input, .record-form label, .record-form input { text-align: left; }
+.record-form { max-width: 600px; }
+table a { text-decoration: underline; }
+.auth-card { width: min(450px, calc(100% - 40px)); margin: 80px auto; text-align: center; }
+.auth-card form { margin: 25px auto 0; }
+
+.home {
+    max-width: 900px;
+    margin: 90px auto;
+    padding: 0 24px;
+}
+
+.home h1 {
+    max-width: 750px;
+    font-size: clamp(36px, 6vw, 64px);
+    line-height: 1.1;
+}
+
+.home p { line-height: 1.7; }
+
+.eyebrow {
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.project, form {
+    max-width: 700px;
+    margin-top: 50px;
+    padding: 30px;
+    border: 1px solid #24546a;
+    border-radius: 16px;
+    background: #101e31;
+    box-shadow: 0 0 25px #35e7d015;
+}
+
+.button-link, button {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 12px 18px;
+    border: 0;
+    border-radius: 8px;
+    background: #35e7d0;
+    color: #07131e;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+label, input {
+    display: block;
+    width: 100%;
+}
+
+label { margin-top: 18px; }
+
+input {
+    margin-top: 6px;
+    padding: 12px;
+    border: 1px solid #467085;
+    border-radius: 8px;
+    background: #0b1422;
+    color: white;
+}
+select {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    padding: 12px;
+    border: 1px solid #467085;
+    border-radius: 8px;
+    background: #0b1422;
+    color: white;
+}
+
+@media (max-width: 650px) {
+    .site-header { align-items: flex-start; flex-direction: column; }
+    .home { margin-top: 60px; }
+}
+
+body > h1,
+th,
+td {
+    text-align: center;
+}
+
+.add-customer {
+    display: table;
+    margin: 0 auto 24px;
+}
+
+form {
+    margin: 30px auto;
+    text-align: center;
+}
+
+form label,
+form input {
+    text-align: center;
+}
+
+table {
+    width: min(900px, calc(100% - 40px));
+    margin: 24px auto;
+    border-collapse: collapse;
+    background: #101e31;
+}
+
+th, td {
+    padding: 14px;
+    border: 1px solid #24546a;
+    text-align: center;
+}
+
+th {
+    color: #35e7d0;
+    background: #15283b;
+}
+
+/* Tasks for Today pages use the same dark palette as the POS pages. */
+.page-content { width: min(940px, calc(100% - 40px)); margin: 58px auto 80px; text-align: center; }
+.page-content h1 { font-size: clamp(32px, 5vw, 52px); margin: 8px 0 14px; }
+.page-content .project { margin: 28px auto; text-align: left; }
+.page-content .record-form { margin: 30px auto; text-align: left; }
+.page-content .record-form label, .page-content .record-form input { text-align: left; }
+.page-content table { width: 100%; margin: 0; }
+.table-scroll { overflow-x: auto; margin: 28px auto; }
+.task-actions { white-space: nowrap; }
+.task-actions form { display: inline; width: auto; margin: 0 0 0 14px; padding: 0; border: 0; background: none; box-shadow: none; }
+.text-button { display: inline; width: auto; margin: 0; padding: 0; border: 0; background: none; color: #ff9a9a; font: inherit; text-decoration: underline; cursor: pointer; }
+.text-button:hover { color: #ffc2c2; }
+.form-cancel { margin-left: 18px; color: #35e7d0; }
+.field-error, .auth-error { color: #ff9a9a; }
+.field-error:empty { display: none; }
+.notice { color: #35e7d0; }
+.empty-state { margin: 40px auto; padding: 28px; border: 1px solid #24546a; border-radius: 16px; background: #101e31; }
+.task-preview { list-style: none; padding: 0; }
+.task-preview li { display: flex; justify-content: space-between; gap: 20px; padding: 14px 0; border-bottom: 1px solid #24546a; }
+.task-preview time { color: #35e7d0; white-space: nowrap; }
+.home .project .button-link + .button-link { margin-left: 12px; }
+@media (max-width: 650px) { .task-preview li { flex-direction: column; gap: 4px; } }
+
+nav a[aria-current="page"] { color: #35e7d0; border-bottom: 2px solid currentColor; padding-bottom: 6px; }
+a:focus-visible { outline: 3px solid #35e7d0; outline-offset: 5px; }
