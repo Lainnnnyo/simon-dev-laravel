@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'About')
+@section('title', 'Our story')
 @section('content')
-<main class="page-content"><p class="eyebrow">ABOUT</p><h1>About this site</h1><section class="project"><h2>Simon Dev POS</h2><p>This project introduces a point-of-sale application's customer and user account pages.</p><p>Developed by Simon Andrei Dimaculangan for IT0049 — Web System Technologies.</p></section><section class="project"><h2>Four pages, one foundation</h2><p>Explore the homepage, learn about the project, and view sample customer and user accounts using the navigation above.</p></section></main>
+<main class="page-content"><p class="eyebrow">OUR STORY / BYTE & BREW</p><h1>A place to <em>connect.</em></h1><section class="project"><h2>Coffee culture. Digital craft.</h2><p>Byte & Brew is a cyber coffee shop concept by Simon Andrei Dimaculangan. Warm espresso tones meet neon teal in a workspace designed around people.</p><p>This Laravel POS coursework project manages customer records, user accounts, and avatar uploads. TFA8 adds Breeze authentication and protected resource controllers.</p><p>It is an account-management prototype; checkout, payments, and stock management are not implemented.</p></section></main>
 @endsection

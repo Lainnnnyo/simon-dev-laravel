@@ -5,9 +5,11 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UserController;
 Route::get('/', [PageController::class, 'index'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
-Route::get('/customers', [CustomerController::class, 'index'])->name('customers');
-Route::get('/users', [UserController::class, 'index'])->name('users');
-
-Route::resource('customers', CustomerController::class)->only(['create','store','edit','update']);
-Route::resource('users', UserController::class)->only(['create','store','edit','update']);
-Route::get('/avatars/{filename}', [UserController::class, 'avatar'])->where('filename', '[a-f0-9-]+\.jpg')->name('avatars.show');
+Route::middleware('auth')->group(function () {
+    Route::view('/dashboard', 'dashboard')->name('dashboard');
+    Route::resource('customers', CustomerController::class);
+    Route::resource('users', UserController::class);
+    Route::get('/avatars/{filename}', [UserController::class, 'avatar'])
+        ->where('filename', '[a-f0-9-]+\.jpg')->name('avatars.show');
+});
+require __DIR__.'/auth.php';

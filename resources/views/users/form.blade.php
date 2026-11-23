@@ -15,5 +15,5 @@
 <label for="avatar">Profile picture (optional)</label><input id="avatar" name="avatar" type="file" accept="image/jpeg,image/png,image/webp"><p>JPEG, PNG or WebP, up to 2 MB and 4096 × 4096 pixels. Prepared as a 256 × 256 thumbnail. Leave blank to keep the current image.</p>
 @error('avatar')<p class="field-error" role="alert">{{ $message }}</p>@enderror
 @endif
-<button type="submit">Save User</button> <a class="form-cancel" href="{{ route('users') }}">Cancel</a></form></main>
+<button type="submit">Save User</button> <a class="form-cancel" href="{{ route('users.index') }}">Cancel</a></form></main>
 @endsection

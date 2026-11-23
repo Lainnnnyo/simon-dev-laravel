@@ -1,10 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Customer Accounts')
+@section('title', 'Customers')
 @section('content')
-<main class="page-content"><h1>Customer Accounts</h1>
-@if(session('status'))<p role="status" class="notice">{{ session('status') }}</p>@endif
-<a class="button-link" href="{{ route('customers.create') }}">Create Customer</a><div class="table-scroll"><table><thead><tr><th scope="col">Id</th><th scope="col">Full Name</th><th scope="col">Email</th><th scope="col">Phone</th><th scope="col">Action</th></tr></thead><tbody>
-@forelse($customers as $record)<tr><td>{{ $record->id }}</td><td>{{ $record->full_name }}</td><td>{{ $record->email }}</td><td>{{ $record->phone }}</td><td><a href="{{ route('customers.edit', $record) }}">Edit</a></td></tr>
-@empty<tr><td colspan="5">No accounts available.</td></tr>@endforelse
-</tbody></table></div></main>
+<main class="page-content"><div class="page-heading"><div><p class="eyebrow">WORKSPACE / RECORDS</p><h1>Customers</h1></div><a class="button-link" href="{{ route('customers.create') }}">+ Create Customer</a></div><div class="table-wrap"><table><thead><tr><th scope="col">Full Name</th><th scope="col">Email</th><th scope="col">Phone</th><th scope="col">Actions</th></tr></thead><tbody>@forelse($customers as $customer)<tr><td>{{ $customer->full_name }}</td><td>{{ $customer->email }}</td><td>{{ $customer->phone }}</td><td><div class="row-actions"><a href="{{ route('customers.show', $customer) }}">View</a><a href="{{ route('customers.edit', $customer) }}">Edit</a><form method="post" action="{{ route('customers.destroy', $customer) }}" data-confirm="Delete this record? This cannot be undone.">@csrf @method('DELETE')<button class="delete-button" type="submit">Delete</button></form></div></td></tr>@empty<tr><td colspan="4">No accounts available.</td></tr>@endforelse</tbody></table></div></main>
 @endsection

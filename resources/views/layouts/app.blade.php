@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>@yield('title') | Simon Dev POS</title><link rel="stylesheet" href="{{ asset('css/site.css') }}"></head>
-<body><header class="site-header"><a class="brand" href="{{ route('home') }}">SIMON<span>_DEV</span></a><nav aria-label="Main navigation">
-@foreach (['home' => 'Home', 'about' => 'About', 'customers' => 'Customers', 'users' => 'Users'] as $name => $label)
-<a href="{{ route($name) }}" @if(request()->routeIs($name)) aria-current="page" @endif>{{ $label }}</a>
-@endforeach
-</nav></header>@yield('content')</body></html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>@yield('title', 'Coffee & code') · BYTE & BREW</title><link rel="stylesheet" href="{{ asset('css/site.css') }}"></head>
+<body><header class="site-header"><a class="brand" href="{{ route('home') }}"><span class="brand-icon">B.</span><span>BYTE <i>&</i> BREW<small>SIMON'S CYBER COFFEE SHOP</small></span></a><nav aria-label="Main navigation"><a href="{{ route('home') }}" @if(request()->routeIs('home')) aria-current="page" @endif>Home</a><a href="{{ route('about') }}">Our story</a>@auth<a href="{{ route('dashboard') }}">Dashboard</a><a href="{{ route('customers.index') }}" @if(request()->routeIs('customers.*')) aria-current="page" @endif>Customers</a><a href="{{ route('users.index') }}" @if(request()->routeIs('users.*')) aria-current="page" @endif>Users</a><form method="post" action="{{ route('logout') }}">@csrf<button class="button-small secondary" type="submit">Log out</button></form>@else<a href="{{ route('login') }}">Log in</a><a class="button-small" href="{{ route('register') }}">Create account ↗</a>@endauth</nav></header>
+<div class="content-wrap">@if(session('status'))<div class="notice" role="status">{{ session('status') }}</div>@endif
+@error('delete')<div class="auth-error" role="alert">{{ $message }}</div>@enderror
+@yield('content')</div><footer><span>BYTE & BREW <span class="dot">●</span> Coffee meets code.</span><span>Built by Simon Andrei Dimaculangan · IT0049</span></footer>
+<script>document.addEventListener('submit',function(event){const message=event.target.dataset.confirm;if(message&&!window.confirm(message)){event.preventDefault();}});</script></body></html>

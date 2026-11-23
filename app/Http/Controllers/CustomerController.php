@@ -14,6 +14,11 @@ class CustomerController extends Controller {
    'phone'=>['required','string','max:30'],
   ]);
  }
- public function store(Request $request) { Customer::create($this->validated($request)); return redirect()->route('customers')->with('status','Customer created.'); }
- public function update(Request $request, Customer $customer) { $customer->update($this->validated($request,$customer)); return redirect()->route('customers')->with('status','Customer updated.'); }
+ public function store(Request $request) { Customer::create($this->validated($request)); return redirect()->route('customers.index')->with('status','Customer created.'); }
+ public function update(Request $request, Customer $customer) { $customer->update($this->validated($request,$customer)); return redirect()->route('customers.index')->with('status','Customer updated.'); }
+ public function show(Customer $customer) { return view('customers.show', compact('customer')); }
+ public function destroy(Customer $customer) {
+  $customer->delete();
+  return redirect()->route('customers.index')->with('status', 'Customer deleted.');
+ }
 }

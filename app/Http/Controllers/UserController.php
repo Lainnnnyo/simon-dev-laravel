@@ -25,7 +25,7 @@ class UserController extends Controller {
   $data['email']=Str::uuid().'@pos.example.test';
   $data['password']=Hash::make(Str::random(48));
   User::create($data);
-  return redirect()->route('users')->with('status','User created. You can add an avatar using Edit.');
+  return redirect()->route('users.index')->with('status','User created. You can add an avatar using Edit.');
  }
  public function update(Request $request, User $user, AvatarService $avatars) {
   $data=$this->validated($request,$user);
@@ -38,11 +38,30 @@ class UserController extends Controller {
   if ($newPath && $oldPath && preg_match('/^avatars\/[a-f0-9-]+\.jpg$/D',$oldPath)) {
    try { Storage::disk('public')->delete($oldPath); } catch (\Throwable $e) { report($e); }
   }
-  return redirect()->route('users')->with('status','User updated.');
+  return redirect()->route('users.index')->with('status','User updated.');
  }
  public function avatar(string $filename) {
   $disk=Storage::disk('public'); $path='avatars/'.$filename;
   if (!$disk->exists($path)) { return response()->file(public_path('images/avatar-placeholder.svg')); }
-  return $disk->response($path,null,['Content-Type'=>'image/jpeg','X-Content-Type-Options'=>'nosniff','Cache-Control'=>'public, max-age=86400']);
+  return $disk->response($path,null,['Content-Type'=>'image/jpeg','X-Content-Type-Options'=>'nosniff','Cache-Control'=>'private, no-store']);
+ }
+ public function show(User $user) { return view('users.show', compact('user')); }
+ public function destroy(Request $request, User $user) {
+  if ($request->user()->is($user)) {
+   return back()->withErrors(['delete'=>'You cannot delete your own signed-in account.']);
+  }
+  $avatar=$user->avatar;
+  $user->delete();
+  if ($avatar && preg_match('/^avatars\/[a-f0-9-]+\.jpg$/D', $avatar)) {
+   try {
+    if (!Storage::disk('public')->delete($avatar)) {
+     return redirect()->route('users.index')->with('status', 'User deleted. The avatar file could not be removed; check storage permissions.');
+    }
+   } catch (\Throwable $e) {
+    report($e);
+    return redirect()->route('users.index')->with('status', 'User deleted. The avatar file could not be removed; check storage permissions.');
+   }
+  }
+  return redirect()->route('users.index')->with('status', 'User and avatar deleted.');
  }
 }

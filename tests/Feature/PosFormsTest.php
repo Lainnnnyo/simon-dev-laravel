@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 class PosFormsTest extends TestCase {
  use RefreshDatabase;
+ protected function setUp(): void {
+  parent::setUp();
+  $this->actingAs(User::factory()->create(['username'=>'testoperator','full_name'=>'Test Operator']));
+ }
  public function test_customer_validation_and_create_update(): void {
   $this->from('/customers/create')->post('/customers',['full_name'=>'Test','email'=>'bad','phone'=>'123'])->assertSessionHasErrors('email')->assertSessionHasInput('full_name','Test');
   $this->post('/customers',['full_name'=>'Test','email'=>'test@example.test','phone'=>'123'])->assertRedirect('/customers');
