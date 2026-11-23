@@ -11,7 +11,7 @@ class CustomerController extends Controller {
   return $request->validate([
    'full_name'=>['required','string','max:255'],
    'email'=>['required','email','max:255',Rule::unique('customers','email')->ignore($customer)],
-   'phone'=>['required','string','max:30'],
+   'phone'=>['nullable','string','max:30'],
   ]);
  }
  public function store(Request $request) { Customer::create($this->validated($request)); return redirect()->route('customers.index')->with('status','Customer created.'); }

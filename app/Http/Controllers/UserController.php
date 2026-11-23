@@ -15,6 +15,9 @@ class UserController extends Controller {
   return $request->validate([
    'username'=>['required','string','max:255',Rule::unique('users','username')->ignore($user)],
    'full_name'=>['required','string','max:255'],
+   'email'=>['required','email','lowercase','max:255',Rule::unique('users','email')->ignore($user)],
+   'password'=>[$user?'nullable':'required','confirmed',\Illuminate\Validation\Rules\Password::min(12)],
+   'is_staff'=>['required','boolean'],'is_admin'=>['required','boolean'],
    'avatar'=>['nullable','image','mimes:jpg,jpeg,png,webp','max:2048','dimensions:max_width=4096,max_height=4096'],
   ]);
  }
@@ -22,8 +25,7 @@ class UserController extends Controller {
   $data=$this->validated($request);
   unset($data['avatar']);
   $data['name']=$data['full_name'];
-  $data['email']=Str::uuid().'@pos.example.test';
-  $data['password']=Hash::make(Str::random(48));
+  $data['password']=Hash::make($data['password']);
   User::create($data);
   return redirect()->route('users.index')->with('status','User created. You can add an avatar using Edit.');
  }
@@ -31,6 +33,8 @@ class UserController extends Controller {
   $data=$this->validated($request,$user);
   unset($data['avatar']);
   $data['name']=$data['full_name'];
+  if($request->user()->is($user) && (!$data['is_staff'] || !$data['is_admin'])){return back()->withErrors(['is_admin'=>'You cannot remove your own staff/admin access.'])->withInput($request->except(['password','password_confirmation']));}
+  if(empty($data['password'])){unset($data['password']);}else{$data['password']=Hash::make($data['password']);$data['remember_token']=null;}
   $newPath=null; $oldPath=$user->avatar;
   if ($request->hasFile('avatar')) { $newPath=$avatars->store($request->file('avatar')); $data['avatar']=$newPath; }
   try { $user->update($data); }
@@ -51,7 +55,11 @@ class UserController extends Controller {
    return back()->withErrors(['delete'=>'You cannot delete your own signed-in account.']);
   }
   $avatar=$user->avatar;
-  $user->delete();
+  \Illuminate\Support\Facades\DB::transaction(function()use($user){
+   $locked=User::whereKey($user->id)->lockForUpdate()->firstOrFail();
+   $locked->update(['is_staff'=>false,'remember_token'=>null,'avatar'=>null]);
+   $locked->delete();
+  });
   if ($avatar && preg_match('/^avatars\/[a-f0-9-]+\.jpg$/D', $avatar)) {
    try {
     if (!Storage::disk('public')->delete($avatar)) {

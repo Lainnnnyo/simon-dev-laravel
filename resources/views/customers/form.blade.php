@@ -10,7 +10,7 @@
 @error('full_name')<p class="field-error" role="alert">{{ $message }}</p>@enderror
 <label for="email">Email</label><input id="email" name="email" type="email" maxlength="255" required value="{{ old('email', $customer->email) }}">
 @error('email')<p class="field-error" role="alert">{{ $message }}</p>@enderror
-<label for="phone">Phone</label><input id="phone" name="phone" type="text" maxlength="30" required value="{{ old('phone', $customer->phone) }}">
+<label for="phone">Phone (optional)</label><input id="phone" name="phone" type="text" maxlength="30" value="{{ old('phone', $customer->phone) }}">
 @error('phone')<p class="field-error" role="alert">{{ $message }}</p>@enderror
 <button type="submit">Save Customer</button> <a class="form-cancel" href="{{ route('customers.index') }}">Cancel</a></form></main>
 @endsection
